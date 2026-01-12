@@ -25,9 +25,15 @@ export class UsersService {
   async findByUsername(username: string): Promise<User | undefined> {
     return this.users.find((user) => user.username === username);
   }
+  
+  async findByEmail(email: string){
+    const user = await this.userRepository.findOne({ where: { email } });
+    return user;
+  }
 
-  async findById(id: number): Promise<User | undefined> {
-    return this.users.find((user) => user.id === id);
+  async findById(id: number){
+    const user = await this.userRepository.findOne({ where: { id } });
+    return user;
   }
 
   // Helper method to hash passwords (for creating test users)
