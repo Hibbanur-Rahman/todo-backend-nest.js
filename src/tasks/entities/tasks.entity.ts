@@ -14,7 +14,7 @@ export class TasksEntity{
     @Column({name:'description', type:'text', nullable:true})
     description:string;
 
-    @Column({name:'user_id', type:'bigint'})
+    @Column({name:'user_id', type:'bigint', nullable:true})
     userId:number;
 
     @CreateDateColumn({name:'created_at', type:'timestamp with time zone'})

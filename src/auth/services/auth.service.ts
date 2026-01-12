@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from './users.service';
-import { LoginDto } from '../dto/login.dto';
+import { LoginDto, RegisterDto } from '../dto/login.dto';
 import { AuthResponseDto } from '../dto/auth-response.dto';
 import * as bcrypt from 'bcrypt';
 
@@ -43,5 +43,16 @@ export class AuthService {
         email: user.email,
       },
     };
+  }
+
+  async register(payload:RegisterDto){
+    const { username, password, email }=payload;
+    const hashedPassword=await bcrypt.hash(password,10);
+    const user=await this.usersService.createUser({
+      username,
+      password:hashedPassword,
+      email
+    });
+    return user;
   }
 }

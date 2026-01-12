@@ -1,9 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { User } from '../interfaces/user.interface';
 import * as bcrypt from 'bcrypt';
+import { InjectRepository } from '@nestjs/typeorm';
+import { UserEntity } from '../entities/user.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class UsersService {
+
+  constructor(
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>,
+  ) {}
   // In a real application, this would be a database
   private readonly users: User[] = [
     {
@@ -26,5 +34,16 @@ export class UsersService {
   async hashPassword(password: string): Promise<string> {
     const saltRounds = 10;
     return bcrypt.hash(password, saltRounds);
+  }
+
+  async createUser(userData: Partial<User>): Promise<User> {
+    const newUser= this.userRepository.create({
+      username: userData.username!,
+      email: userData.email!,
+      password: userData.password!,
+    });
+    await this.userRepository.save(newUser);
+    console.log('New user created:', newUser);
+    return newUser;
   }
 }

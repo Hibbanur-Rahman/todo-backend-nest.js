@@ -12,7 +12,8 @@ export class TasksService {
         private readonly tasksEntity:Repository<TasksEntity>
     ){}
     async getTasks(){
-        return [{ id: 1, title: 'Sample Task' }];
+        const tasks=await this.tasksEntity.find();
+        return tasks;
     }
 
     async createTask(payload:TaskDto){
