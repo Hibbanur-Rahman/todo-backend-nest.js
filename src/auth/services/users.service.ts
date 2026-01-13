@@ -4,6 +4,7 @@ import * as bcrypt from 'bcrypt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from '../entities/user.entity';
 import { Repository } from 'typeorm';
+import { RegisterDto } from '../dto/login.dto';
 
 @Injectable()
 export class UsersService {
@@ -42,7 +43,7 @@ export class UsersService {
     return bcrypt.hash(password, saltRounds);
   }
 
-  async createUser(userData: Partial<User>): Promise<User> {
+  async createUser(userData:RegisterDto) {
     const newUser= this.userRepository.create({
       username: userData.username!,
       email: userData.email!,

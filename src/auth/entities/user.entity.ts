@@ -5,10 +5,10 @@ export class UserEntity{
     @PrimaryGeneratedColumn('increment',{ type:'bigint'})
     id:number;
 
-    @Column({name:'username', type:'varchar', unique:true})
+    @Column({name:'username', type:'varchar'})
     username:string;
 
-    @Column({name:'email', type:'varchar', unique:true})
+    @Column({name:'email', type:'varchar', unique:true, nullable:false})
     email:string;
 
     @Column({name:'password', type:'varchar'})
